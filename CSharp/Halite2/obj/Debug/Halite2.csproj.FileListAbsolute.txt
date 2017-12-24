@@ -1,0 +1,5 @@
+C:\Users\augus\Desktop\Dev\Halite II\HaliteII-AMP\CSharp\Halite2\bin\Debug\Halite2.exe
+C:\Users\augus\Desktop\Dev\Halite II\HaliteII-AMP\CSharp\Halite2\bin\Debug\Halite2.pdb
+C:\Users\augus\Desktop\Dev\Halite II\HaliteII-AMP\CSharp\Halite2\obj\Debug\Halite2.csproj.CoreCompileInputs.cache
+C:\Users\augus\Desktop\Dev\Halite II\HaliteII-AMP\CSharp\Halite2\obj\Debug\Halite2.exe
+C:\Users\augus\Desktop\Dev\Halite II\HaliteII-AMP\CSharp\Halite2\obj\Debug\Halite2.pdb
