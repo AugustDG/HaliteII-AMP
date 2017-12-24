@@ -33,27 +33,26 @@ namespace Halite2
           foreach (Planet planet in gameMap.GetAllPlanets().Values)
           {
             if (planet.IsOwned())
-              break;
+              continue;
 
             largestPlanet = gameMap.GetPlanet(4);
 
             if (planet.GetRadius() > largestPlanet.GetRadius())
             {
               largestPlanet = planet;
-              break;
             }
 
             foreach (Planet sPlanet in selectedPlanets)
             {
               if (sPlanet == largestPlanet)
-                break;
+                continue;
             }
          
             if (ship.CanDock(largestPlanet))
             {
               moveList.Add(new DockMove(ship, largestPlanet));
               selectedPlanets.Add(largestPlanet);
-              break;
+              continue;
             }
             else
             {
@@ -62,21 +61,21 @@ namespace Halite2
               {
                 moveList.Add(newLThrustMove);
                 selectedPlanets.Add(largestPlanet);
-                break;
+                continue;
               }
             }
 
             foreach (Planet sPlanet in selectedPlanets)
             {
               if (sPlanet == planet)              
-                break;
+                continue;
             }
 
             if (ship.CanDock(planet))
             {                        
               moveList.Add(new DockMove(ship, planet));
               selectedPlanets.Add(planet);
-              break;
+              continue;
             }
             else
             {
@@ -86,9 +85,8 @@ namespace Halite2
               {
                 moveList.Add(newThrustMove);
                 selectedPlanets.Add(largestPlanet);
-              }
-
-              break;
+                continue;
+              }            
             }
           }
         }
