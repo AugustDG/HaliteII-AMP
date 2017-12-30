@@ -14,13 +14,18 @@ namespace Halite2
       GameMap gameMap = networking.Initialize(name);
       Planet largestPlanet;
 
-      List<Planet> selectedPlanets = new List<Planet>();
+      List<Planet> currentPlanets = new List<Planet>();
+      List<Ship> currentShips = new List<Ship>();
 
       List<Move> moveList = new List<Move>();
+
       for (; ; )
       {
         moveList.Clear();
         gameMap.UpdateMap(Networking.ReadLineIntoMetadata());
+
+        currentShips.AddRange(gameMap.GetMyPlayer().GetShips().Values);
+        currentPlanets.AddRange(gameMap.GetAllPlanets().Values);
 
         foreach (Ship ship in gameMap.GetMyPlayer().GetShips().Values)
         {
@@ -33,26 +38,25 @@ namespace Halite2
           foreach (Planet planet in gameMap.GetAllPlanets().Values)
           {
             if (planet.IsOwned())
+            {
               continue;
+            }
 
-            largestPlanet = gameMap.GetPlanet(4);
+            largestPlanet = planet;
 
             if (planet.GetRadius() > largestPlanet.GetRadius())
             {
               largestPlanet = planet;
-            }
+              if (planet.GetDistanceTo(ship) < largestPlanet.GetDistanceTo(ship))
+              {
+                largestPlanet = planet;
+              }
+            }       
 
-            foreach (Planet sPlanet in selectedPlanets)
-            {
-              if (sPlanet == largestPlanet)
-                continue;
-            }
-         
             if (ship.CanDock(largestPlanet))
             {
               moveList.Add(new DockMove(ship, largestPlanet));
-              selectedPlanets.Add(largestPlanet);
-              continue;
+              break;
             }
             else
             {
@@ -60,33 +64,8 @@ namespace Halite2
               if (newLThrustMove != null)
               {
                 moveList.Add(newLThrustMove);
-                selectedPlanets.Add(largestPlanet);
-                continue;
+                break;
               }
-            }
-
-            foreach (Planet sPlanet in selectedPlanets)
-            {
-              if (sPlanet == planet)              
-                continue;
-            }
-
-            if (ship.CanDock(planet))
-            {                        
-              moveList.Add(new DockMove(ship, planet));
-              selectedPlanets.Add(planet);
-              continue;
-            }
-            else
-            {
-
-              ThrustMove newThrustMove = Navigation.NavigateShipToDock(gameMap, ship, planet, Constants.MAX_SPEED);
-              if (newThrustMove != null)
-              {
-                moveList.Add(newThrustMove);
-                selectedPlanets.Add(largestPlanet);
-                continue;
-              }            
             }
           }
         }
@@ -95,4 +74,3 @@ namespace Halite2
     }
   }
 }
-
